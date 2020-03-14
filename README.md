@@ -37,7 +37,6 @@ The .env file is generally not loaded, due to security issues. The easiest way t
 ```
 d:\...\> copy .env.example .env
 ```
-I'll share the Twitter apikey and other parameters via email.
 
 ## Step 4: Create database 
 
