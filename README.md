@@ -55,7 +55,6 @@ I already created the migrations with the test data.
 ```
 d:\...\> php artisan migrate --seed
 ```
-> It is possible that the Faker image provider is down. I switched to another provider in my local env.
 
 # Ready to go!
 
