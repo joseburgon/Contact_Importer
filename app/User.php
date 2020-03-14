@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function contacts() 
+    {
+        return $this->hasMany(Contact::class)->withTimestamps();
+    }
+
+    public function files() 
+    {
+        return $this->hasMany(File::class)->withTimestamps();
+    }
 }

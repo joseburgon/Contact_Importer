@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -227,7 +228,18 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'CreditCard' => 'Inacho\CreditCard',
 
     ],
+
+    'db_fields' => [
+        0 => 'name',
+        1 => 'birthday',
+        2 => 'phone',
+        3 => 'address',
+        4 => 'card',
+        5 => 'email',
+    ]
 
 ];

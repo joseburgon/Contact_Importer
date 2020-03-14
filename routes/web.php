@@ -19,5 +19,8 @@ Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('contacts', 'ImportController@index');
-Route::post('import', 'ImportController@import')->name('import');
+Route::get('contacts', 'ContactController@index');
+Route::get('/files', 'ContactController@files')->name('files');
+Route::get('/download_file/{file}', 'ContactController@downloadFile');
+Route::post('/import_parse', 'ContactController@parseImport')->name('import_parse');
+Route::post('/import_process', 'ContactController@processImport')->name('import_process');
