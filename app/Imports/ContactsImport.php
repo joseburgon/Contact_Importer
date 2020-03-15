@@ -41,6 +41,8 @@ class ContactsImport implements ToModel, WithStartRow, WithValidation
         //dd($row, $this->fields['name'], $this->fields['email']);
         $card = CreditCard::validCreditCard($row[$this->fields['card']]);
 
+
+
         return new Contact([
             'user_id' => $this->user_id,
             'name' => $row[$this->fields['name']],
@@ -61,9 +63,9 @@ class ContactsImport implements ToModel, WithStartRow, WithValidation
     public function rules(): array
     {
         return [
-            $this->fields['name'] => ['required'],
+            $this->fields['name'] => ['required', 'regex:/^[_A-z]*((-|\s)*[_A-z])*$/'],
             $this->fields['birthday'] => 'required|date',
-            $this->fields['phone'] => 'required',
+            $this->fields['phone'] => ['required', 'regex:/(^[(][+]\d{1,2}[)]\s\d{3}( |-)\d{3}( |-)\d{2}( |-)\d{2}$)/'],
             $this->fields['address'] => 'required|string',
             $this->fields['card'] => ['required', new Card],
             $this->fields['email'] =>['required', 'email', new UniqueEmail($this->user_id)],
@@ -74,7 +76,8 @@ class ContactsImport implements ToModel, WithStartRow, WithValidation
     public function customValidationMessages()
     {
         return [
-            $this->fields['name'] . '.regex' => 'Special characters are not allowed',
+            $this->fields['name'] . '.regex' => 'Name contains special characters.',
+            $this->fields['phone'] . '.regex' => 'Invalid phone format.',
         ];
     }
 

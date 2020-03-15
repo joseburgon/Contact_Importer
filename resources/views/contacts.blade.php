@@ -47,7 +47,7 @@
                       @foreach ($data as $row)
                           <tr>
                               <td>{{ $row->name }}</td>
-                              <td>{{ $row->birthday }}</td>
+                              <td>{{ $row->birthday = date('Y F d') }}</td>
                               <td>{{ $row->phone }}</td>
                               <td>{{ $row->address }}</td>
                               <td>{{ $row->card }}</td>
