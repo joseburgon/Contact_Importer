@@ -12,12 +12,17 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 
-class ContactsImport implements ToModel, WithStartRow, WithValidation
+class ContactsImport implements ToModel, WithStartRow, WithValidation, SkipsOnFailure, WithBatchInserts, WithChunkReading
 {
 
     use Importable, SkipsFailures;
+
+    private $rows = 0;
 
     public function __construct(array $fields, int $startRow)
     {
@@ -38,10 +43,8 @@ class ContactsImport implements ToModel, WithStartRow, WithValidation
      */
     public function model(array $row)
     {
-        //dd($row, $this->fields['name'], $this->fields['email']);
+        ++$this->rows;
         $card = CreditCard::validCreditCard($row[$this->fields['card']]);
-
-
 
         return new Contact([
             'user_id' => $this->user_id,
@@ -70,7 +73,7 @@ class ContactsImport implements ToModel, WithStartRow, WithValidation
             $this->fields['card'] => ['required', new Card],
             $this->fields['email'] =>['required', 'email', new UniqueEmail($this->user_id)],
         ];
-        //'regex:^[a-zA-Z0-9 -]*$'
+
     }
 
     public function customValidationMessages()
@@ -92,4 +95,15 @@ class ContactsImport implements ToModel, WithStartRow, WithValidation
             $this->fields['email'] => 'email',
         ];
     }
+
+    public function batchSize(): int
+    {
+        return 500;
+    }
+
+    public function chunkSize(): int
+    {
+        return 500;
+    }
+
 }

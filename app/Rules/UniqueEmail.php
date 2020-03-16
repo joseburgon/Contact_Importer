@@ -38,6 +38,6 @@ class UniqueEmail implements Rule
      */
     public function message()
     {
-        return 'Contact already exists';
+        return 'The :attribute already exists';
     }
 }

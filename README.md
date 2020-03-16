@@ -8,7 +8,7 @@
 </p>
 
 ## PHP - Contacts Importer App | by José Burgón
-**Mandatory tasks**: Some data validations still pending.
+**Mandatory tasks**: All completed.
 **Bonus tasks**: S3 bucket and Hobby App in Heroku.
 
 ## Step 1: Clone repository

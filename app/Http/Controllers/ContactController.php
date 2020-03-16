@@ -100,30 +100,39 @@ class ContactController extends Controller
             $fields_order[$db_fields[$value]] = $key;
         }
 
-        //dd($request->fields, $fields_order);
-
         $import = new ContactsImport($fields_order, $startRow);
 
-        try {
-            $import->import('csv_imports/' . $file_name, 's3', \Maatwebsite\Excel\Excel::CSV);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
+        $import->import('csv_imports/' . $file_name, 's3', \Maatwebsite\Excel\Excel::CSV);
 
-            foreach ($failures as $failure) {
-                $failure->row(); // row that went wrong
-                $failure->attribute(); // either heading key (if using heading row concern) or column index
-                $failure->errors(); // Actual error messages from Laravel validator
-                $failure->values(); // The values of the row that has failed.
+        $failures = [];
+        
+        foreach ($import->failures() as $index => $failure) {
+            $failures[$index]['row'] = $failure->row(); // row that went wrong
+            $failures[$index]['attribute'] = $failure->attribute(); // either heading key (if using heading row concern) or column index
+            $failures[$index]['error'] = $failure->errors(); // Actual error messages from Laravel validator
+        }
+
+        $countFailures = count($failures);
+        
+        //dd($countFailures, $import->getRowCount());
+
+        if ($countFailures > 0)
+        {
+            if ($import->getRowCount() == 0)
+            {
+                $file->status = 'FAILED';
+                $file->save();
+                return redirect('contacts')->with('failed', 'File Failed. 0 Contacts imported.');
             }
-            //dd($failures);
-            $file->status = 'FAILED';
+            
+            $file->status = 'FINISHED';
             $file->save();
-            return redirect('contacts')->withErrors($failures);
+            return redirect('contacts')->with('failures', $failures);
         }
 
         $file->status = 'FINISHED';
         $file->save();
 
-        return redirect('contacts')->with('message', 'Process Completed');
+        return redirect('contacts')->with('success', 'File succesfully imported!');
     }
 }

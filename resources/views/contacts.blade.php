@@ -2,23 +2,32 @@
 
 @section('content')
           
-<div class="container mt-3">
+<div class="container">
     <div class="row">
-        @if(count($errors))  
+        @if(session()->has('failures'))  
         <div class="col">
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="alert alert-warning" role="alert">
+                There were some contacts that could not be imported.
             </div>
+            <ul class="list-group list-group-flush">
+            @foreach(session()->get('failures') as $failure)                        
+                <li class="list-group-item disabled">Problem with contact in row: {{ $failure['row'] }}</li>
+                <li class="list-group-item">{{ $failure['error'][0] }}</li>                
+            @endforeach
+            </ul>
         </div>
         @endif
         @if(session()->has('message'))
         <div class="col">
             <div class="alert alert-success">
                 {{ session()->get('message') }}
+            </div>
+        </div>
+        @endif
+        @if(session()->has('failed'))
+        <div class="col">
+            <div class="alert alert-danger">
+                {{ session()->get('failed') }}
             </div>
         </div>
         @endif
