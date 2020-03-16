@@ -57,6 +57,7 @@ I already created the migrations with the test data.
 ```
 d:\...\> php artisan migrate --seed
 ```
+> Faker will create phone numbers with wrong format because it doesn't have a type of phone that matches with the test requirements.
 
 # Ready to go!
 
