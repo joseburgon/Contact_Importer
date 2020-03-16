@@ -11,6 +11,8 @@
 **Mandatory tasks**: All completed.
 **Bonus tasks**: S3 bucket and Hobby App in Heroku.
 
+Main Package used in this project is: [Laravel Excel](https://laravel-excel.com/).
+
 ## Step 1: Clone repository
 
 If it's Windows then I strongly recommend using [Laragon](https://laragon.org/) as a local development environment.

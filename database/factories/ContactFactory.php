@@ -10,7 +10,7 @@ $factory->define(App\Contact::class, function (Faker $faker) {
         'user_id' => 1,
         'name' => $faker->name,        
         'birthday' => $faker->date('Ymd', 'now'),
-        'phone' => $faker->phoneNumber,
+        'phone' => $faker->e164PhoneNumber,
         'address' => $faker->address,
         'card' => $faker->creditCardNumber,
         'card_brand' => $faker->creditCardType,
