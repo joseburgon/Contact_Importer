@@ -64,4 +64,4 @@ d:\...\> php artisan migrate --seed
 ***User test***
 
 *Email: usertest@mail.com
-Password: 123456*
+Password: 123456
